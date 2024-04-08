@@ -15,15 +15,7 @@ const makePromise = ({ delay, shouldResolve }) => {
       }, delay);
     });
   } else {
-    iziToast.show({
-      title: 'Caution',
-      message: 'Number should be positive',
-      backgroundColor: 'orange',
-      theme: 'dark',
-      color: 'orange',
-      iconUrl: './icon-warn.png',
-      position: 'topRight',
-    });
+    return Promise.reject('Number should be positive');  
   }
 };
 
