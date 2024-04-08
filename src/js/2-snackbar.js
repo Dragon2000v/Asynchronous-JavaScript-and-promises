@@ -21,7 +21,7 @@ const makePromise = ({ delay, shouldResolve }) => {
       backgroundColor: 'orange',
       theme: 'dark',
       color: 'orange',
-      iconUrl: './icon-warn.png',
+      iconUrl: '../img/icon-warn.png',
       position: 'topRight',
     });
   }
@@ -45,7 +45,7 @@ form.addEventListener('submit', event => {
         backgroundColor: 'green',
         theme: 'dark',
         color: 'green',
-        iconUrl: './icon-success.png',
+        iconUrl: '../img/icon-success.png',
         position: 'topRight',
       })
     )
@@ -56,7 +56,7 @@ form.addEventListener('submit', event => {
         backgroundColor: 'red',
         theme: 'dark',
         color: 'red',
-        iconUrl: './icon-success.png',
+        iconUrl: '../img/icon-success.png',
         position: 'topRight',
       })
     );
