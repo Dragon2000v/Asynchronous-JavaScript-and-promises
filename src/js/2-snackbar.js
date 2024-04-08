@@ -1,6 +1,6 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
-// import errorIcon from '../img/icon-error.png'
+import errorIcon from '../img/icon-error.png'
 
 const form = document.querySelector('.form');
 const inputs = document.querySelectorAll('input');
@@ -39,7 +39,7 @@ form.addEventListener('submit', event => {
         backgroundColor: 'green',
         theme: 'dark',
         color: 'green',
-        iconUrl: './img/icon-error.png',
+        iconUrl: errorIcon,
         position: 'topRight',
       })
     )
