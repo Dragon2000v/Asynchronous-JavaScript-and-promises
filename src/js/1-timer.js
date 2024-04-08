@@ -3,87 +3,62 @@ import 'flatpickr/dist/flatpickr.min.css';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
-const startBtn = document.querySelector('button[data-start]');
-const datetimePicker = document.querySelector('#datetime-picker');
+let userSelectedDate = 0;
+const buttonStart = document.querySelector('[data-start]');
+const inputDate = document.querySelector('#datetime-picker');
+inputDate.classList.add('input');
+const daysCounter = document.querySelector('[data-days]');
+const hoursCounter = document.querySelector('[data-hours]');
+const minutesCounter = document.querySelector('[data-minutes]');
+const secondsCounter = document.querySelector('[data-seconds]');
 
-startBtn.setAttribute('disabled', true);
-
-const timer = document.querySelector('.timer');
-const iconError = './img/icon-error.svg'
-
-
-const timerValues = {
-  days: timer.querySelector('[data-days]'),
-  hours: timer.querySelector('[data-hours]'),
-  minutes: timer.querySelector('[data-minutes]'),
-  seconds: timer.querySelector('[data-seconds]'),
-};
-
-let userSelectedDate;
-
-const options = {
+buttonStart.setAttribute('disabled', 'true');
+flatpickr('#datetime-picker', {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
-  minuteIncrement: 1,
+  minuteIncrement: 2,
   onClose(selectedDates) {
-    checkData(selectedDates[0]);
+    if (selectedDates[0] < Date.now()) {
+      buttonStart.classList.remove('btn-active');
+      inputDate.classList.remove('input-active');
+      iziToast.show({
+        title: 'Error',
+        message: 'Illegal operation',
+        backgroundColor: 'red',
+        theme: 'dark',
+        color: 'red',
+        iconUrl: '../img/icon-error.svg',
+        position: 'topRight',
+      });
+      selectedDates[0] = new Date(Date.now());
+      buttonStart.setAttribute('disabled', 'true');
+    } else {
+      userSelectedDate = selectedDates[0];
+      buttonStart.removeAttribute('disabled');
+      buttonStart.classList.add('btn-active');
+      inputDate.classList.add('input-active');
+    }
   },
-};
-flatpickr(datetimePicker, options);
+});
 
-const izitoastOptions = {
-  title: 'Error',
-  message: 'Illegal operation',
-  position: 'topRight',
-  backgroundColor: '#EF4040',
-  theme: 'dark',
-  icoтUrl: iconError,
-};
-const checkData = data => {
-  if (data.getTime() > Date.now()) {
-    userSelectedDate = data;
-    startBtn.removeAttribute('disabled');
-  } else {
-    startBtn.setAttribute('disabled', true);
-    izitoast.error(izitoastOptions);
-  }
-};
-
-const addLeadingZero = value => {
-  return String(value).padStart(2, '0');
-};
-
-const setValues = () => {
-  let { days, hours, minutes, seconds } = convertMs(
-    userSelectedDate.getTime() - Date.now()
-  );
-  if (days < 0 && hours < 0 && minutes < 0 && seconds < 0) {
-    return null;
-  }
-
-  timerValues.days.textContent = addLeadingZero(days);
-  timerValues.hours.textContent = addLeadingZero(hours);
-  timerValues.minutes.textContent = addLeadingZero(minutes);
-  timerValues.seconds.textContent = addLeadingZero(seconds);
-  return true;
-};
-
-const stopTimer = intervalId => {
-  clearInterval(intervalId);
-};
-
-const start = () => {
-  datetimePicker.setAttribute('disabled', true);
-  startBtn.setAttribute('disabled', true);
-
-  setValues();
-  const timerIntervalId = setInterval(() => {
-    setValues() ? setValues() : stopTimer(timerIntervalId);
-  }, 1000);
-};
-
-startBtn.addEventListener('click', start);
+buttonStart.addEventListener('click', () => {
+  buttonStart.setAttribute('disabled', 'true');
+  buttonStart.classList.remove('btn-active');
+  inputDate.setAttribute('disabled', 'true');
+  inputDate.classList.remove('input-active');
+  const timerId = setInterval(() => {
+    const diff = userSelectedDate - Date.now();
+    if (diff <= 0) {
+      clearInterval(timerId);
+    }
+    const { days, hours, minutes, seconds } = convertMs(diff);
+    daysCounter.textContent = addLeadingZero(days);
+    hoursCounter.textContent = addLeadingZero(hours);
+    minutesCounter.textContent = addLeadingZero(minutes);
+    secondsCounter.textContent = addLeadingZero(seconds);
+  });
+});
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
@@ -103,3 +78,7 @@ function convertMs(ms) {
 
   return { days, hours, minutes, seconds };
 }
+
+const addLeadingZero = value => {
+  return value.toString().padStart(2, '0');
+};
