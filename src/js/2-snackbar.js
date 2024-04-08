@@ -4,7 +4,6 @@ import iconSuccess from '../img/icon-success.png'
 
 
 
-
 const form = document.querySelector('.form');
 const inputs = document.querySelectorAll('input');
 const makePromise = ({ delay, shouldResolve }) => {
