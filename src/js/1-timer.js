@@ -2,6 +2,7 @@ import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
+import iconError from '../img/icon-error.png'
 
 let userSelectedDate = 0;
 const buttonStart = document.querySelector('[data-start]');
@@ -28,7 +29,7 @@ flatpickr('#datetime-picker', {
         backgroundColor: 'red',
         theme: 'dark',
         color: 'red',
-        iconUrl: './icon-error.png',
+        iconUrl: iconError,
         position: 'topRight',
       });
       selectedDates[0] = new Date(Date.now());
