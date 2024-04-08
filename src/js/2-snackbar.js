@@ -39,7 +39,7 @@ form.addEventListener('submit', event => {
         backgroundColor: 'green',
         theme: 'dark',
         color: 'green',
-        iconUrl: '../img/icon-error.png',
+        iconUrl: './img/icon-error.png',
         position: 'topRight',
       })
     )
