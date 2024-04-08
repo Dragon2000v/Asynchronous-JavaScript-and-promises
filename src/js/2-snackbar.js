@@ -27,6 +27,7 @@ const createOptions = () => {
   return options;
 };
 
+
 form.addEventListener('submit', event => {
   event.preventDefault();
   const options = createOptions();
