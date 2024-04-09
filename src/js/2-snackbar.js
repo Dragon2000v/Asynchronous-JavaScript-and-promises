@@ -24,10 +24,13 @@ const makePromise = ({ delay, shouldResolve }) => {
 
 const createOptions = () => {
   const options = {};
-  options.delay = inputs[0].value;
-  options.shouldResolve = inputs[1].checked;
+  const delayInput = form.elements['delay']; // Отримання введення затримки за атрибутом name
+  options.delay = parseInt(delayInput.value); // Конвертація значення у числовий формат
+  const stateInput = form.elements['state']; // Отримання введення стану за атрибутом name
+  options.shouldResolve = stateInput.value === 'fulfilled'; // Перевірка, чи обрано "fulfilled"
   return options;
 };
+
 
 form.addEventListener('submit', event => {
   event.preventDefault();
