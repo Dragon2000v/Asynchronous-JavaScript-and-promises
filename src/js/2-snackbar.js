@@ -38,6 +38,7 @@ form.addEventListener('submit', event => {
     });
     return;
   }
+  
 
   makePromise({ delayDuration, isFulfilledState })
     .then(value => {
